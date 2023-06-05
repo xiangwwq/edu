@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mapper.MsgMapper">
+
+    <resultMap id="BaseResultMap" type="com.edu.dao.Msg">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="message" column="message" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,message
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from msg
+        where 
+    </select>
+
+    <select id="selectByCourseId" resultType="com.edu.dao.Msg">
+       select * from msg where id=#{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from msg
+        where 
+    </delete>
+    <delete id="delById">
+        delete from msg where id=#{id}
+    </delete>
+    <insert id="insert">
+        insert into msg
+        ( id,message)
+        values (#{id,jdbcType=INTEGER},#{message,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective">
+        insert into msg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="message != null">message,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="message != null">#{message,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.edu.dao.Msg">
+        update msg
+        <set>
+                <if test="id != null">
+                    id = #{id,jdbcType=INTEGER},
+                </if>
+                <if test="message != null">
+                    message = #{message,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where  
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.edu.dao.Msg">
+        update msg
+        set 
+            id =  #{id,jdbcType=INTEGER},
+            message =  #{message,jdbcType=VARCHAR}
+        where  
+    </update>
+    <update id="updateById" parameterType="com.edu.dao.Msg">
+        update msg
+         set message=#{message,jdbcType=VARCHAR}
+          where id=#{id}
+    </update>
+</mapper>

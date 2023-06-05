@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mapper.VideoMapper">
+
+    <resultMap id="BaseResultMap" type="com.edu.dao.Video">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+            <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="videoSourcePath" column="video_source_path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,course_id,chapter_id,
+        title,video_source_path
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from video
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+
+
+    <select id="searchAllByChapterId" resultMap="BaseResultMap">
+         select * from video where chapter_id=#{id}
+    </select>
+
+    <select id="searchAllByCourseId" resultType="com.edu.dao.Video">
+        select * from video where course_id=#{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from video
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+
+
+    <delete id="deleteByChapterId">
+          delete from  video where chapter_id=#{id}
+    </delete>
+
+    <delete id="deleteByCourseId">
+        delete from  video where course_id=#{id}
+    </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.edu.dao.Video" useGeneratedKeys="true">
+        insert into video
+        ( id,course_id,chapter_id
+        ,title,video_source_path)
+        values (#{id,jdbcType=INTEGER},#{courseId,jdbcType=INTEGER},#{chapterId,jdbcType=INTEGER}
+        ,#{title,jdbcType=VARCHAR},#{videoSourcePath,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.edu.dao.Video" useGeneratedKeys="true">
+        insert into video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="courseId != null">course_id,</if>
+                <if test="chapterId != null">chapter_id,</if>
+                <if test="title != null">title,</if>
+                <if test="videoSourcePath != null">video_source_path,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="courseId != null">#{courseId,jdbcType=INTEGER},</if>
+                <if test="chapterId != null">#{chapterId,jdbcType=INTEGER},</if>
+                <if test="title != null">#{title,jdbcType=VARCHAR},</if>
+                <if test="videoSourcePath != null">#{videoSourcePath,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.edu.dao.Video">
+        update video
+        <set>
+                <if test="courseId != null">
+                    course_id = #{courseId,jdbcType=INTEGER},
+                </if>
+                <if test="chapterId != null">
+                    chapter_id = #{chapterId,jdbcType=INTEGER},
+                </if>
+                <if test="title != null">
+                    title = #{title,jdbcType=VARCHAR},
+                </if>
+                <if test="videoSourcePath != null">
+                    video_source_path = #{videoSourcePath,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.edu.dao.Video">
+        update video
+        set 
+            course_id =  #{courseId,jdbcType=INTEGER},
+            chapter_id =  #{chapterId,jdbcType=INTEGER},
+            title =  #{title,jdbcType=VARCHAR},
+            video_source_path =  #{videoSourcePath,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>
